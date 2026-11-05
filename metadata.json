@@ -1,0 +1,6 @@
+{
+  "name": "Sachin — Software Engineer Portfolio",
+  "description": "Full-stack developer portfolio of Sachin featuring live LeetCode stats, real-time GitHub activity sync, featured projects, and interactive developer showcases.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,352 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark, .dark *));
+@custom-variant light (&:is(.light, .light *));
+
+:root,
+.light {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Daiki Fujita WAKE Mode (Warm Editorial Stone / Alabaster #ECEAE4) */
+  --canvas-bg: #ECEAE4;
+  --surface-bg: #F6F5F0;
+  --surface-secondary: #E2DFD7;
+  --border-hairline: rgba(20, 20, 19, 0.12);
+  --border-focus: rgba(124, 58, 237, 0.45);
+  --text-headline: #141413;
+  --text-body: #2C2B29;
+  --text-muted: #686660;
+  --accent-focal: #7C3AED;
+  --accent-hover: #6D28D9;
+  --accent-tint: rgba(124, 58, 237, 0.08);
+}
+
+.dark {
+  /* Daiki Fujita DREAM Mode (Nocturnal Cosmic Indigo #07081A + Iridescent Violet & Amber) */
+  --canvas-bg: #07081A;
+  --surface-bg: #0E1024;
+  --surface-secondary: #151730;
+  --border-hairline: rgba(214, 204, 255, 0.11);
+  --border-focus: rgba(185, 140, 255, 0.5);
+  --text-headline: #F4F2EE;
+  --text-body: #C9C6D8;
+  --text-muted: #858299;
+  --accent-focal: #D97706;
+  --accent-hover: #F59E0B;
+  --accent-tint: rgba(185, 140, 255, 0.14);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--canvas-bg);
+  color: var(--text-headline);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s ease;
+}
+
+/* Daiki Fujita Dream Mode Luminous Text Glow */
+.dream-text-glow {
+  text-shadow:
+    0 0 1.2em rgba(4, 2, 14, 0.45),
+    0 0 1.1em rgba(185, 140, 255, 0.24),
+    0 0 0.45em rgba(245, 158, 11, 0.25);
+}
+
+/* Daiki Fujita Conic Iridescent Dot */
+.daiki-conic-dot {
+  background: conic-gradient(from 200deg, #ff9ee8, #b98cff, #7df9ff, #f59e0b, #ff9ee8);
+}
+
+/* Equalizer Bars Animation for Sound On Button */
+@keyframes eqBar {
+  0%, 100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 149, 159, 0.25);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 149, 159, 0.45);
+}
+
+::selection {
+  background: #d97706;
+  color: #ffffff;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Subtle background grid pattern */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(185, 140, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-grid-pattern {
+  background-image: radial-gradient(rgba(185, 140, 255, 0.09) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.light .bg-grid-pattern {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* 1. Lift & Hover Settle Effect (uses independent CSS translate so it never conflicts with GSAP ScrollTrigger transform) */
+.hover-lift {
+  transition: translate 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  translate: 0 -3px;
+}
+
+/* 2. Shimmer Light Sweep on Interactive Cards (Daiki Fujita Iridescent Prism Sweep) */
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-110%) rotate(22deg);
+  }
+  100% {
+    transform: translateX(210%) rotate(22deg);
+  }
+}
+
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    65deg,
+    transparent 28%,
+    rgba(185, 140, 255, 0.08) 43%,
+    rgba(245, 158, 11, 0.14) 50%,
+    rgba(125, 249, 255, 0.09) 57%,
+    transparent 72%
+  );
+  transform: translateX(-110%) rotate(22deg);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 25;
+  transition: opacity 0.3s ease;
+}
+
+.light .shimmer-card::after {
+  background: linear-gradient(
+    65deg,
+    transparent 28%,
+    rgba(139, 92, 246, 0.09) 43%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(56, 189, 248, 0.09) 57%,
+    transparent 72%
+  );
+}
+
+.shimmer-card:hover::after {
+  opacity: 1;
+  animation: shimmerSweep 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Daiki Fujita Atmospheric Sky & Iridescent Color Aura (a7-sky) */
+.daiki-sky-aura {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(168, 85, 247, 0.17) 0%, transparent 45%),
+    radial-gradient(circle at 82% 28%, rgba(245, 158, 11, 0.13) 0%, transparent 48%),
+    radial-gradient(circle at 50% 65%, rgba(124, 58, 237, 0.14) 0%, transparent 52%),
+    radial-gradient(circle at 25% 85%, rgba(56, 189, 248, 0.1) 0%, transparent 45%);
+}
+
+.light .daiki-sky-aura {
+  background:
+    radial-gradient(circle at 50% 22%, rgba(139, 92, 246, 0.14) 0%, transparent 48%),
+    radial-gradient(circle at 82% 28%, rgba(217, 119, 6, 0.08) 0%, transparent 48%),
+    radial-gradient(circle at 20% 75%, rgba(56, 189, 248, 0.09) 0%, transparent 52%);
+}
+
+/* Daiki Fujita Subtle Texture Overlay (zero SVG filter raster cost) */
+.daiki-grain {
+  background-image: radial-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+/* ============================================================================
+   KINETIC TEXT HOVER ANIMATIONS (Site-Wide Interactive Typography)
+   ============================================================================ */
+
+/* 1. Interactive Word Hover Lift & Chromatic Glow (.hover-word) */
+.hover-word {
+  display: inline-block;
+  position: relative;
+  transition:
+    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease,
+    text-shadow 0.3s ease,
+    letter-spacing 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.hover-word::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #f59e0b, #a855f7, #38bdf8);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-word:hover {
+  transform: translateY(-4px) scale(1.03) skewX(-3deg);
+  color: #f59e0b;
+  text-shadow: 0 8px 24px rgba(245, 158, 11, 0.28);
+}
+
+.light .hover-word:hover {
+  color: #7c3aed;
+  text-shadow: 0 8px 24px rgba(124, 58, 237, 0.22);
+}
+
+.hover-word:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* 2. Dual-Layer Vertical Rolling Link Hover (.hover-roll-text) */
+.hover-roll-text {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.hover-roll-text > span {
+  display: inline-block;
+  transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+
+.hover-roll-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 105%;
+  left: 0;
+  width: 100%;
+  color: #f59e0b;
+  transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.light .hover-roll-text::after {
+  color: #7c3aed;
+}
+
+.hover-roll-text:hover > span {
+  transform: translateY(-110%);
+}
+
+.hover-roll-text:hover::after {
+  transform: translateY(-105%);
+}
+
+/* 3. Site-Wide Heading, Serif Accent & Paragraph Hover Micro-Interactions */
+main h1,
+main h2,
+main h3,
+main h4 {
+  transition:
+    translate 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease,
+    text-shadow 0.35s ease;
+}
+
+main h2:hover,
+main h3:hover,
+main h4:hover {
+  translate: 3px 0;
+}
+
+main h1 .font-serif,
+main h2 .font-serif,
+main h3 .font-serif {
+  display: inline-block;
+  transition:
+    translate 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    scale 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease,
+    text-shadow 0.35s ease;
+}
+
+main h1:hover .font-serif,
+main h2:hover .font-serif,
+main h3:hover .font-serif,
+main .font-serif:hover {
+  translate: 0 -3px;
+  scale: 1.05;
+  color: #f59e0b;
+  text-shadow: 0 6px 22px rgba(245, 158, 11, 0.32);
+}
+
+.light main h1:hover .font-serif,
+.light main h2:hover .font-serif,
+.light main h3:hover .font-serif,
+.light main .font-serif:hover {
+  color: #7c3aed;
+  text-shadow: 0 6px 22px rgba(124, 58, 237, 0.25);
+}
+
+main p {
+  transition:
+    translate 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease;
+}
+
+main p:hover {
+  translate: 2px 0;
+  color: var(--text-headline);
+}
+
+/* Respect user's reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
